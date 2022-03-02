@@ -73,7 +73,7 @@ for %%a in ("WiFi/*.xml") do (
 
 	if /i !wifi! EQU !compteur! (netsh wlan add profile filename="WiFi/"%%a user=all )
 )
-
+echo.
 pause
 goto :startApp
 
