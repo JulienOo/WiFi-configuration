@@ -50,7 +50,7 @@ for %%a in ("WiFi/*.xml") do (
 	set /a compteur+=1
 	echo !compteur! - %%a)
 
-echo Voici le compteur !compteur!
+
 if /i !compteur! EQU 0 (
 	echo Le script ne connait aucun WiFi à intégrer à l'ordinateur !
 	echo.
