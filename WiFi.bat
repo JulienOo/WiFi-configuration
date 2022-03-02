@@ -4,7 +4,9 @@ setlocal enabledelayedexpansion
 REM vérification présence repertoire Wifi
 if not exist "./WiFi" ( mkdir WiFi )
 :startApp
+REM vide le contenu de l'affichage
 cls
+REM actualise le repertoire
 cd %~dp0
 echo SCRIPT WIFI
 :otherChoice
@@ -17,7 +19,7 @@ echo 3 - fermer le script
 echo.
 
 
-:returnChoix1
+:retourChoix1
 set /p choix= votre choix : 
 
 
@@ -29,7 +31,7 @@ if %choix% EQU 3 ( goto :closeApp )
 echo.
 echo Merci de choisir une valeur correct
 echo.
-goto :returnChoix1
+goto :retourChoix1
 
 
 
@@ -49,11 +51,11 @@ for %%a in ("WiFi/*.xml") do (
 	echo !compteur! - %%a)
 
 echo Voici le compteur !compteur!
-if /i %compteur% EQU 0 (
+if /i !compteur! EQU 0 (
 	echo Le script ne connait aucun WiFi à intégrer à l'ordinateur !
 	echo.
 ) 
-	if /i %compteur% NEQ 0 (
+	if /i !compteur! NEQ 0 (
 	:return2
 	echo.
 	set /p wifi= Quel wifi ajouter ? 
@@ -102,6 +104,7 @@ echo.
 echo Voici les Wifi configuré sur l'ordinateur
 echo.
 
+set /a compteur=0
 for /f "delims=" %%i in ('type temp.txt') do (
     set var=%%i
     rem chcp 1252
