@@ -1,15 +1,19 @@
 @echo off 
 setlocal enabledelayedexpansion 
 
-
+REM vérification présence repertoire Wifi
+if not exist "./WiFi" ( mkdir WiFi )
+:startApp
+cls
+cd %~dp0
 echo SCRIPT WIFI
 :otherChoice
 echo * * * * * * * * * * * * *
 
-
-echo 1 configuration d'un wifi sur l'ordinateur 
-echo 2 ajout d'un réseau Wifi sur le SCRIPT
-echo 3 fermer le script 
+chcp 65001 > NUL
+echo 1 - configuration d'un wifi sur l'ordinateur 
+echo 2 - ajout d'un réseau Wifi sur le SCRIPT
+echo 3 - fermer le script 
 echo.
 
 
@@ -19,7 +23,7 @@ set /p choix= votre choix :
 
 if %choix% EQU 1 ( goto :configurationWifi )
 if %choix% EQU 2 ( goto :ajoutWiFiScript )
-if %choix% EQU 3 ( exit )
+if %choix% EQU 3 ( goto :closeApp )
 
 
 echo.
@@ -42,31 +46,34 @@ echo Voici les réseaux wifi disponible :
 echo.
 for %%a in ("WiFi/*.xml") do (
 	set /a compteur+=1
-	echo !compteur!  %%a)
+	echo !compteur! - %%a)
 
-:return2
-echo.
-set /p wifi= Quel wifi ajouter ? 
-echo.
-
-
-
-if /i %wifi% GTR %compteur% (echo Merci de choisir une valeur correct ! && goto :return2 )
-
-
-
-
-rem set /a compteur=0
-
-rem for %%a in ("WiFi/*.xml") do (
-rem 	set /a compteur+=1
-rem echo tour !compteur!
-rem echo !wifi!
-
-rem 	if /i !wifi! EQU !compteur! (netsh wlan add profile filename="WiFi/"%%a user=all )
-rem 	)
+echo Voici le compteur !compteur!
+if /i %compteur% EQU 0 (
+	echo Le script ne connait aucun WiFi à intégrer à l'ordinateur !
+	echo.
+) 
+	if /i %compteur% NEQ 0 (
+	:return2
+	echo.
+	set /p wifi= Quel wifi ajouter ? 
+	echo.
+	if /i !wifi! GTR !compteur! (echo Merci de choisir une valeur correct 1 && goto :return2 )
+	if /i !wifi! LSS 1 (echo Merci de choisir une valeur correct ! 2 && goto :return2 )
+)
 
 
+
+set /a compteur=0
+
+for %%a in ("WiFi/*.xml") do (
+	set /a compteur+=1
+
+	if /i !wifi! EQU !compteur! (netsh wlan add profile filename="WiFi/"%%a user=all )
+)
+
+pause
+goto :startApp
 
 
 rem rem netsh wlan add profile filename="WiFi/Formation-Premica.xml" user=all
@@ -78,9 +85,7 @@ rem exit
 
 
 :ajoutWiFiScript
-chcp 1252 > NUL
 netsh wlan show profiles > temp.txt
-chcp 850 > NUL
 
 
 echo > temp2.txt
@@ -103,10 +108,11 @@ for /f "delims=" %%i in ('type temp.txt') do (
     echo !var:~39! >> temp2.txt
 
     set /a compteur+=1
-	echo !compteur! !var:~39!
+	echo !compteur! - !var:~39!
     )
 	set /a compteur+=1
-	echo !compteur! ajouter tous les wifi !
+	echo !compteur! - ajouter tous les wifi !
+
 
 del temp.txt
 ren temp2.txt temp.txt
@@ -130,12 +136,17 @@ for /f "delims=" %%i in ('type temp.txt') do (
 	set /a compteur+=1
 	if /i !ajoutWifi! EQU !compteur! (cd %~dp0"\Wifi" && netsh wlan export profile key=clear folder=. && goto :cestgood  )
 
-
 echo.
 echo Merci de choisir une valeur correct ! && goto :return3
+
 
 
 :cestgood 
 
 pause
+goto :startApp
 
+
+:closeApp
+cd %~dp0
+if exist "temp.txt" ( del "temp.txt" )
