@@ -1,13 +1,19 @@
 @echo off 
+REM modification gestion variables
 setlocal enabledelayedexpansion 
 
 REM vérification présence repertoire Wifi
 if not exist "./WiFi" ( mkdir WiFi )
 :startApp
+
 REM vide le contenu de l'affichage
 cls
+
+
 REM actualise le repertoire
 cd %~dp0
+
+
 echo SCRIPT WIFI
 :otherChoice
 echo * * * * * * * * * * * * *
@@ -107,7 +113,7 @@ echo.
 set /a compteur=0
 for /f "delims=" %%i in ('type temp.txt') do (
     set var=%%i
-    rem chcp 1252
+
     echo !var:~39! >> temp2.txt
 
     set /a compteur+=1
