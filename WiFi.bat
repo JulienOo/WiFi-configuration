@@ -66,8 +66,8 @@ if /i !compteur! EQU 0 (
 	echo.
 	set /p wifi= Quel wifi ajouter ? 
 	echo.
-	if /i !wifi! GTR !compteur! (echo Merci de choisir une valeur correct 1 && goto :return2 )
-	if /i !wifi! LSS 1 (echo Merci de choisir une valeur correct ! 2 && goto :return2 )
+	if /i !wifi! GTR !compteur! (echo Merci de choisir une valeur correct ! && goto :return2 )
+	if /i !wifi! LSS 1 (echo Merci de choisir une valeur correct ! && goto :return2 )
 )
 
 
