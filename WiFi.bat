@@ -131,7 +131,7 @@ echo.
 for /f "delims=" %%i in ('type temp.txt') do (
     set var=%%i
 
-     if /i !compteur! EQU 0 ( echo !compteur! - ajouter tous les wifi ! )
+     if /i !compteur! EQU 0 ( echo !compteur! - ajouter tous les wifi ! && echo. )
 
     echo !var:~39! >> temp2.txt
 
