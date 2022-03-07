@@ -47,10 +47,9 @@ echo.
 :retourChoix1
 set /p choix= votre choix : 
 
-
-if %choix% EQU 1 ( goto :ajoutWiFiScript )
-if %choix% EQU 2 ( goto :configurationWifi )
-if %choix% EQU 3 ( goto :closeApp )
+if /i !choix! EQU 1 ( goto :ajoutWiFiScript )
+if /i !choix! EQU 2 ( goto :configurationWifi )
+if /i !choix! EQU 3 ( goto :closeApp )
 
 
 echo.
@@ -124,12 +123,15 @@ echo Voici les Wifi configuré sur l'ordinateur
 echo.
 echo.
 set /a compteur=0
-echo !compteur! - ajouter tous les wifi !
+
+
 echo.
 
 
 for /f "delims=" %%i in ('type temp.txt') do (
     set var=%%i
+
+     if /i !compteur! EQU 0 ( echo !compteur! - ajouter tous les wifi ! )
 
     echo !var:~39! >> temp2.txt
 
