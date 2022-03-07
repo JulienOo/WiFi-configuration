@@ -3,7 +3,7 @@
 REM ###########################################################
 
 
-REM version : 1.0.0.0
+REM version : 1.0.0.1
 
 REM github : https://github.com/JulienOo/WiFi-configuration
 
@@ -37,7 +37,7 @@ echo.
 echo * * * * * * * * * * * * *
 echo.
 
-chcp 1252 > NUL
+REM chcp 1252 > NUL
 echo 1 - ajout d'un réseau Wifi sur le SCRIPT
 echo 2 - configuration d'un wifi sur l'ordinateur 
 echo 3 - fermer le script 
@@ -154,11 +154,11 @@ set /p ajoutWifi= Quel wifi ajouter ?
 
 set /a compteur=1
 
-if /i !ajoutWifi! EQU 0 (cd "%~dp0\Wifi" && netsh wlan export profile key=clear folder=. && goto :cestgood  )
+if /i !ajoutWifi! EQU 0 (cd "%~dp0"\WiFi && netsh wlan export profile key=clear folder=. && goto :cestgood  )
 for /f "delims=" %%i in ('type temp.txt') do (
     set var=%%i
-echo %%i
-echo !compteur!
+	echo %%i
+	echo !compteur!
 	if /i !ajoutWifi! EQU !compteur! (cd "%~dp0\Wifi" && netsh wlan export profile !var! key=clear folder=. && goto :cestgood )
 	set /a compteur+=1
     )
